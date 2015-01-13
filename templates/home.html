@@ -1,0 +1,10 @@
+<h1>Soud</h1>
+
+<button ng-click="showAll()"> All </button>
+<button ng-click="showUploaded()">Uploaded</button>
+
+<div ng-repeat="activity in activities">
+  <p ng-bind-html="activity.html"></p>
+</div>
+
+<button ng-click="nextPage()">More</button>
