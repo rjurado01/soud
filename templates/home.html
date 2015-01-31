@@ -1,7 +1,8 @@
 <h1>Soud</h1>
 
-<button ng-click="showAll()"> All </button>
-<button ng-click="showUploaded()">Uploaded</button>
+<button ng-click="showActivities('all')"> All </button>
+<button ng-click="showActivities('uploaded')">Uploaded</button>
+<button ng-click="showActivities('repost')">Repost</button>
 
 <div ng-repeat="activity in activities">
   <p id={{activity.origin.id}} ng-bind-html="activity.html"></p>
