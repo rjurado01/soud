@@ -169,8 +169,8 @@ Soud.controller('homeController', ['$scope', '$sce', function($scope, $sce) {
     if( soud_token ) {
       // initialize client with app credentials
       SC.initialize({
-        client_id: '0077bed51718f820d539b0d39869faaf',
-        redirect_uri: 'http://localhost/soud/callback.html',
+        client_id: '6364dc3e7eb68d90537a8aea3883dcf2',
+        redirect_uri: 'http://rjurado01.github.io/soud/callback.html',
         access_token: soud_token,
       });
 
@@ -179,8 +179,8 @@ Soud.controller('homeController', ['$scope', '$sce', function($scope, $sce) {
     else {
       // initialize client with app credentials
       SC.initialize({
-        client_id: '0077bed51718f820d539b0d39869faaf',
-        redirect_uri: 'http://localhost/soud/callback.html'
+        client_id: '6364dc3e7eb68d90537a8aea3883dcf2',
+        redirect_uri: 'http://rjurado01.github.io/soud/callback.html',
       });
 
       // initiate auth popup
