@@ -1,8 +1,18 @@
 <h1>Soud</h1>
 
-<button ng-click="showActivities('all')"> All </button>
-<button ng-click="showActivities('uploaded')">Uploaded</button>
-<button ng-click="showActivities('repost')">Repost</button>
+<div class="top-content">
+  <div id="filters">
+    <button ng-click="showActivities('all')"> All </button>
+    <button ng-click="showActivities('uploaded')">Uploaded</button>
+    <button ng-click="showActivities('repost')">Repost</button>
+  </div>
+
+  <div id="controllers">
+    <button ng-click="prevTrack()">Prev</button>
+    <button ng-click="toggleTrack()">Play/Pause</button>
+    <button ng-click="nextTrack()">Next</button>
+  </div>
+</div>
 
 <div ng-repeat="activity in activities">
   <p id={{activity.origin.id}} ng-bind-html="activity.html"></p>

@@ -1,9 +1,9 @@
 Soud.controller('homeController', ['$scope', '$sce', function($scope, $sce) {
   $scope.activities = [];
-  $scope.widgets = [];
   $scope.limit = 10;
   $scope.next_href;
   $scope.filter = 'uploaded';
+  $scope.active_activity = null;
 
   /*
    * Reset activities list and show new selected activities
@@ -26,6 +26,43 @@ Soud.controller('homeController', ['$scope', '$sce', function($scope, $sce) {
    */
   $scope.nextPage = function() {
     getPage($scope.next_href);
+  };
+
+  /*
+   * Play/Pause actual activity track
+   */
+  $scope.toggleTrack = function() {
+    if( $scope.active_activity ) {
+      $scope.active_activity.widget.toggle();
+    }
+  };
+
+  /*
+   * Play next activity track
+   */
+  $scope.nextTrack = function() {
+    if( $scope.active_activity ) {
+      var index = $scope.activities.indexOf($scope.active_activity);
+      $scope.active_activity.widget.pause();
+
+      if( index < $scope.activities.length - 1 ) {
+        $scope.activities[index+1].widget.play();
+      }
+    }
+  };
+
+  /*
+   * Play next activity track
+   */
+  $scope.prevTrack = function() {
+    if( $scope.active_activity ) {
+      var index = $scope.activities.indexOf($scope.active_activity);
+      $scope.active_activity.widget.pause();
+
+      if( index > 0 ) {
+        $scope.activities[index-1].widget.play();
+      }
+    }
   };
 
   /*
@@ -60,8 +97,8 @@ Soud.controller('homeController', ['$scope', '$sce', function($scope, $sce) {
       var iframe = document.getElementById(activity.origin.id).querySelector('iframe');
       activity.widget = SC.Widget(iframe);
 
-      // add auto play when previous track end
-      addNextAutoPlay(activity);
+      // add auto play event
+      addEvents(activity);
 
       if( activities.length > 0 ) {
         // proccess next activity
@@ -97,7 +134,7 @@ Soud.controller('homeController', ['$scope', '$sce', function($scope, $sce) {
   /*
    * Add event to previout activity when it ends for play next track
    */
-  function addNextAutoPlay(activity) {
+  function addEvents(activity) {
     var index = $scope.activities.indexOf(activity);
 
     // Check if this is the first activity
@@ -115,7 +152,12 @@ Soud.controller('homeController', ['$scope', '$sce', function($scope, $sce) {
           }, 500);
         });
       }
-    }
+    };
+
+    // save active widget for controllers (play/pause, next and prev)
+    activity.widget.bind(SC.Widget.Events.PLAY, function(){
+      $scope.active_activity = activity;
+    });
   };
 
   initialize();
