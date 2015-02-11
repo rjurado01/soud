@@ -1,21 +1,25 @@
-<h1>Soud</h1>
+<div class="stay-on-top">
+  <div class="top-content">
+    <h1 class="top-h1">Soud</h1>
 
-<div class="top-content">
-  <div id="filters">
-    <button ng-click="showActivities('all')"> All </button>
-    <button ng-click="showActivities('uploaded')">Uploaded</button>
-    <button ng-click="showActivities('repost')">Repost</button>
-  </div>
+    <div id="filters">
+      <button ng-click="showActivities('all')"> All </button>
+      <button ng-click="showActivities('uploaded')">Uploaded</button>
+      <button ng-click="showActivities('repost')">Repost</button>
+    </div>
 
-  <div id="controllers">
-    <button ng-click="prevTrack()">Prev</button>
-    <button ng-click="toggleTrack()">Play/Pause</button>
-    <button ng-click="nextTrack()">Next</button>
+    <div id="controllers">
+      <button ng-click="prevTrack()">Prev</button>
+      <button ng-click="toggleTrack()">Play/Pause</button>
+      <button ng-click="nextTrack()">Next</button>
+    </div>
   </div>
 </div>
 
-<div ng-repeat="activity in activities">
-  <p id={{activity.origin.id}} ng-bind-html="activity.html"></p>
-</div>
+<div class="content">
+  <div ng-repeat="activity in activities">
+    <p id={{activity.origin.id}} ng-bind-html="activity.html"></p>
+  </div>
 
-<button ng-click="nextPage()">More</button>
+  <button ng-click="nextPage()">More</button>
+</div>
