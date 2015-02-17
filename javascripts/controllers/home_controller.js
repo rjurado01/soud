@@ -35,6 +35,10 @@ Soud.controller('homeController', ['$scope', '$sce', function($scope, $sce) {
     if( $scope.active_activity ) {
       $scope.active_activity.widget.toggle();
     }
+    else if( $scope.activities.length > 0 ) {
+      $scope.active_activity = $scope.activities[0];
+      $scope.active_activity.widget.play();
+    }
   };
 
   /*
@@ -104,6 +108,9 @@ Soud.controller('homeController', ['$scope', '$sce', function($scope, $sce) {
         // proccess next activity
         addActivities(activities);
       }
+      else if( $scope.activities.length < 10 ) {
+        $scope.nextPage();
+      }
       else {
         // get next page
         activity.widget.bind(SC.Widget.Events.PLAY, function(){
@@ -119,12 +126,14 @@ Soud.controller('homeController', ['$scope', '$sce', function($scope, $sce) {
   function filterActivities(activities) {
     switch($scope.filter) {
       case 'uploaded':
-        return activities.filter(function(activity){
-          return activity.type.indexOf('repost') == -1 && activity.type.indexOf('playlist') == -1
+        return activities.filter(function(activity) {
+          return activity.type.indexOf('repost') == -1 &&
+            activity.type.indexOf('playlist') == -1
         });
       case 'repost':
-        return activities.filter(function(activity){
-          return activity.type.indexOf('repost') > -1 && activity.type.indexOf('playlist') == -1
+        return activities.filter(function(activity) {
+          return activity.type.indexOf('repost') > -1 &&
+            activity.type.indexOf('playlist') == -1
         });
     };
 
@@ -137,22 +146,15 @@ Soud.controller('homeController', ['$scope', '$sce', function($scope, $sce) {
   function addEvents(activity) {
     var index = $scope.activities.indexOf(activity);
 
-    // Check if this is the first activity
-    if( index > 0 ) {
-      var previous_activity = $scope.activities[index - 1];
+    activity.widget.bind(SC.Widget.Events.FINISH, function(){
+      setTimeout(function(){
+        // play next track
+        $scope.nextTrack();
 
-      if( previous_activity ) {
-        previous_activity.widget.bind(SC.Widget.Events.FINISH, function(){
-          setTimeout(function(){
-            // reload previous activity to remove "recommended tracks"
-            previous_activity.widget.load(previous_activity.origin.uri);
-
-            // play previous activity
-            activity.widget.play();
-          }, 500);
-        });
-      }
-    };
+        // reload activity to remove "recommended tracks"
+        activity.widget.load(activity.origin.uri);
+      }, 500);
+    });
 
     // save active widget for controllers (play/pause, next and prev)
     activity.widget.bind(SC.Widget.Events.PLAY, function(){
